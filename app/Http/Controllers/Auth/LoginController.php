@@ -44,13 +44,9 @@ class LoginController extends Controller
     public function authenticated(Request $request)
     {
         if(User::where('email',$request->email)->count() == 0){
-          $user=  User::create([
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'password'=>bcrypt('password')
-            ]);
-              Auth::attempt($user);
-            $request->session()->regenerate();
+            $request->request->add(['password'=>bcrypt('password')]);
+          $user=  User::create($request->all());
+            $this->guard()->login($user);
             return redirect()->route('chat');
         }
 

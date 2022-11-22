@@ -32,7 +32,7 @@
 
             registerUser(){
                 axios.post('/store-register-user',this.data).then(response=>{
-document.location ='/chat'
+document.location ='/'
                 });
 
 
