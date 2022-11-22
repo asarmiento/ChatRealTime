@@ -44,7 +44,14 @@ class LoginController extends Controller
     public function authenticated(Request $request)
     {
         if(User::where('email',$request->email)->count() == 0){
-            return  (new RegisterController)->registered($request->all());
+          $user=  User::create([
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'password'=>bcrypt('password')
+            ]);
+              Auth::attempt($user);
+            $request->session()->regenerate();
+            return redirect()->route('chat');
         }
 
         $credentials = $request->validate([
