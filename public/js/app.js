@@ -2179,11 +2179,11 @@ Vue.use((v_toaster__WEBPACK_IMPORTED_MODULE_0___default()), {
       _this3.numberOfUsers = users.length;
     }).joining(function (user) {
       _this3.numberOfUsers += 1;
-      _this3.setAudio();
+      //  this.setAudio()
       _this3.$toaster.success(user.name + ' a ingresado al chat');
     }).leaving(function (user) {
       _this3.numberOfUsers -= 1;
-      _this3.setAudio();
+      //this.setAudio()
       _this3.$toaster.warning(user.name + ' a salido del chat');
     });
   }
@@ -2297,7 +2297,9 @@ var render = function render() {
         txtFloat: _vm.chat.txtFloat[index]
       }
     }, [_vm._v(_vm._s(value) + "\n        ")]);
-  }), 1), _vm._v(" "), _c("input", {
+  }), 1), _vm._v(" "), _c("div", {
+    staticClass: "input-group p-2"
+  }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2322,7 +2324,17 @@ var render = function render() {
         _vm.message = $event.target.value;
       }
     }
-  }), _vm._v(" "), _c("br")]);
+  }), _vm._v(" "), _c("span", {
+    staticClass: "input-group-text btn btn-success",
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.send.apply(null, arguments);
+      }
+    }
+  }, [_c("i", {
+    staticClass: "fa fa-send"
+  })])]), _vm._v(" "), _c("br")]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

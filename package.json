@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.2.1",
         "bootstrap": "^5.2.2",
         "v-toaster": "^1.0.3",
         "vue-chat-scroll": "^1.4.0"

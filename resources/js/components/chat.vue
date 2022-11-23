@@ -13,8 +13,11 @@
             >{{value}}
             </message>
         </ul>
+        <div class="input-group p-2">
         <input type="text" class="form-control" placeholder="Escribir aquí..." v-model="message"
                @keyup.enter="send">
+            <span @click.prevent="send" class="input-group-text btn btn-success"><i class="fa fa-send " ></i></span>
+        </div>
         <br>
 
       <!--  <a href='' class="btn btn-warning btn-sm" @click.prevent='deleteSession'>Delete Chats</a>-->

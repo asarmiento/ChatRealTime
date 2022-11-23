@@ -6,6 +6,8 @@ window.Vue = require('vue').default;
 import VueChatScroll from "vue-chat-scroll";
 Vue.use(VueChatScroll)
 
+
+
 Vue.component('message', require('./components/message.vue').default);
 Vue.component('chat', require('./components/chat.vue').default);
 Vue.component('registerUser', require('./components/register.vue').default);
