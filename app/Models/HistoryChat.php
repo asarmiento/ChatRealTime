@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserTemporal extends Model
+class HistoryChat extends Model
 {
-    protected $table ='users_temporal';
-    protected $fillable=['name','email'];
+    protected $table ='histories_chat';
+    protected $fillable=['user_id','message'];
     use HasFactory;
 }

@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Models\User;
-use App\Models\UserTemporal;
+use App\Models\HistoryChat;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -28,7 +28,7 @@ class ChatEvent implements ShouldBroadcast
     {
         //
         $this->message = $message;
-        $this->user = $user;
+        $this->user = $user->name;
         $this->dontBroadcastToCurrentUser();
     }
 

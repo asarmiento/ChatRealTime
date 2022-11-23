@@ -10821,3 +10821,47 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.list-group-item {
+  width: 75%;
+  border-radius: 15px;
+  margin: 5px;
+}
+
+.chat-box {
+  width: 300px;
+  height: 350px;
+  border: 1px solid #a5a4a8;
+  border-radius: 5%;
+  padding: 0px;
+  margin: 10px;
+  text-shadow: 2px 2px 5px #E4E3E8;
+}
+.chat-box ul {
+  list-style: none;
+}
+.chat-box .chat-box-title {
+  text-shadow: none;
+  background-color: #0a53be;
+  border: 1px solid #0a53be;
+  border-radius: 14px 14px 0 0;
+  font-size: 18px;
+  padding: 5px;
+  color: #ffffff;
+}
+.chat-box .chat-box-title span {
+  float: right;
+}
+
+.text-message-right {
+  text-align: right;
+}
+
+.text-message-left {
+  text-align: left;
+}
+
+#time {
+  font-size: 7px;
+  margin-top: 20px;
+  color: black;
+}

@@ -1,7 +1,7 @@
 <template>
 <div>
-    <li class="list-group-item" :class="className"><slot></slot><span id="time">{{ time }}</span></li>
-    <small class="badge float-end " :class="badgeClass" >{{user.name}}</small>
+    <li class="list-group-item " :class="className+' '+ txtAling+' '+ floatxt"><slot></slot><span id="time">{{ time }}</span></li>
+    <small class="badge  " :class="badgeClass+' '+ floatxt" >{{user}}</small>
 </div>
 </template>
 
@@ -12,7 +12,9 @@
         props:[
             'color',
             'user',
-            'time'
+            'time',
+            'txtAlin',
+            'txtFloat'
         ],
         computed:{
             className(){
@@ -20,6 +22,12 @@
             },
             badgeClass(){
                 return 'bg-'+this.color
+            },
+            txtAling(){
+                return 'text-message-'+this.txtAlin
+            },
+            floatxt(){
+                return 'float-'+this.txtFloat
             }
         }
 
@@ -27,9 +35,5 @@
 </script>
 
 <style scoped>
-    #time{
-        font-size: 9px;
-        margin-top: 10px;
-        color: black;
-    }
+
 </style>

@@ -1,39 +1,41 @@
 <template>
-    <div class="offset-4 col-4 offset-sm-1 col-sm-6">
-        <li class="list-group-item active">Chat Room <span class="badge  badge-pill badge-danger">@{{ numberOfUsers }}</span> </li>
-        <div class="badge badge-pill badge-primary">@{{ typing }}</div>
+    <div class="chat-box">
+        <h1 class="chat-box-title ml-3">Friendly Chat <span class="badge  badge-pill badge-danger float-right"> @{{ numberOfUsers }}</span> </h1>
+        <div class="badge badge-pill label-primary">{{ typing }}</div>
         <ul class="list-group " v-chat-scroll>
             <message v-for="(value,index ) in chat.message"
-
                      :key="index"
                      :user="chat.user[index]"
                      :time="chat.time[index]"
                      :color="chat.color[index]"
+                     :txtAlin="chat.txtAlin[index]"
+                     :txtFloat="chat.txtFloat[index]"
             >{{value}}
             </message>
         </ul>
         <input type="text" class="form-control" placeholder="Escribir aquí..." v-model="message"
                @keyup.enter="send">
         <br>
-        <a href='' class="btn btn-warning btn-sm" @click.prevent='deleteSession'>Delete Chats</a>
+      <!--  <a href='' class="btn btn-warning btn-sm" @click.prevent='deleteSession'>Delete Chats</a>-->
     </div>
 </template>
 
 <script>
     import Toaster from 'v-toaster'
     import 'v-toaster/dist/v-toaster.css'
-
+import message from "./message";
     Vue.use(Toaster, {timeout: 5000})
     export default {
         name: "chat",
         data() {
             return {
-                count: 0,
                 message: '',
                 chat: {
                     message: [],
                     user: [],
                     time: [],
+                    txtAlin: [],
+                    txtFloat: [],
                     color: []
                 },
                 typing: '',
@@ -41,24 +43,31 @@
             }
         }, watch: {
             message() {
-                Echo.private('chat')
-                    .whisper('typing', {
+                Echo.channel('chat').listenForWhisper(
+                    'typing', {
                         name: this.message
                     });
             }
+        },
+        created(){
+            this. getOldMessages()
         },
         methods: {
             send() {
                 if (this.message.length != 0) {
                     this.chat.message.push(this.message)
-                    this.chat.user.push({name: 'Yo'})
+                    this.chat.user.push( 'Yo')
                     this.chat.color.push('success')
+                    this.chat.txtAlin.push('right')
+                    this.chat.txtFloat.push('end')
                     this.chat.time.push(this.getTime())
 
                 }
-                axios.post('/send', {message: this.message, chat:this.chat}).then(response => {
+                let data = {message: this.message, chat:this.chat};
+                this.message = ''
+                axios.post('/send', data).then(response => {
 
-                    this.message = ''
+
                 }).catch(err => {
                     console.log(err)
                 })
@@ -93,10 +102,22 @@
                     this.chat.message.push(e.message)
                     this.chat.user.push(e.user)
                     this.chat.color.push('warning')
+                    this.chat.txtAlin.push('left')
+                    this.chat.txtFloat.push('start')
+                    this.chat.time.push(this.getTime())
+                    axios.post('/saveToSession',{
+                        chat : this.chat
+                    })
+                        .then(response => {
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
                     console.log(e)
-                }).listenForWhisper('escribiendo', (e) => {
+                }).listenForWhisper('typing', (e) => {
+                    console.log(e)
                 if (e.name != '') {
-                    this.typing = 'escribiendo...'
+                    this.typing = 'typing...'
                 } else {
                     this.typing = ''
                 }
@@ -109,11 +130,11 @@
                 .joining((user) => {
                     this.numberOfUsers += 1;
                     // console.log(user);
-                    this.$toaster.success(user.name + ' is joined the chat room');
+                    this.$toaster.success(user.name + ' a ingresado al chat');
                 })
                 .leaving((user) => {
                     this.numberOfUsers -= 1;
-                    this.$toaster.warning(user.name + ' is leaved the chat room');
+                    this.$toaster.warning(user.name + ' a salido del chat');
                 });
         }
     }

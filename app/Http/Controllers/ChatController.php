@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\ChatEvent;
 use App\Models\User;
-use App\Models\UserTemporal;
+use App\Models\HistoryChat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -13,6 +13,10 @@ use function Symfony\Component\String\s;
 class ChatController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function chat()
     {
@@ -23,15 +27,20 @@ class ChatController extends Controller
 
     public function send(Request $request)
     {
+        $message= $request->get('message');
         $user = User::find(Auth::id());
+        HistoryChat::create([
+            'user_id'=>Auth::id(),
+            'message'=>$message
+        ]);
         $this->saveToSession($request);
-        event(new ChatEvent($request->get('message'), $user));
+        event(new ChatEvent($message, $user));
     }
 
 /*    public function send()
     {
         $message='Hola';
-        $user = UserTemporal::find(session::get('userId'));
+        $user = HistoryChat::find(session::get('userId'));
         event(new ChatEvent($message, $user));
     }*/
 
@@ -54,6 +63,7 @@ class ChatController extends Controller
 
     public function saveToSession(request $request)
     {
+
         session()->put('chat',$request->chat);
     }
 
