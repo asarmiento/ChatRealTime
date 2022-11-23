@@ -2121,6 +2121,14 @@ Vue.use((v_toaster__WEBPACK_IMPORTED_MODULE_0___default()), {
         console.log(err);
       });
     },
+    setAudio: function setAudio() {
+      var audio = document.createElement("audio");
+      audio.preload = "auto";
+      audio.src = "http://chatapp.test/SD_ALERT_6.mp3";
+      audio.play();
+      document.body.appendChild(audio);
+      return audio;
+    },
     getTime: function getTime() {
       var time = new Date();
       return time.getHours() + ':' + time.getMinutes();
@@ -2152,6 +2160,7 @@ Vue.use((v_toaster__WEBPACK_IMPORTED_MODULE_0___default()), {
       _this3.chat.txtAlin.push('left');
       _this3.chat.txtFloat.push('start');
       _this3.chat.time.push(_this3.getTime());
+      _this3.setAudio();
       axios.post('/saveToSession', {
         chat: _this3.chat
       }).then(function (response) {})["catch"](function (error) {
@@ -2170,10 +2179,11 @@ Vue.use((v_toaster__WEBPACK_IMPORTED_MODULE_0___default()), {
       _this3.numberOfUsers = users.length;
     }).joining(function (user) {
       _this3.numberOfUsers += 1;
-      // console.log(user);
+      _this3.setAudio();
       _this3.$toaster.success(user.name + ' a ingresado al chat');
     }).leaving(function (user) {
       _this3.numberOfUsers -= 1;
+      _this3.setAudio();
       _this3.$toaster.warning(user.name + ' a salido del chat');
     });
   }

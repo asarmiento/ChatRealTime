@@ -16,6 +16,7 @@
         <input type="text" class="form-control" placeholder="Escribir aquí..." v-model="message"
                @keyup.enter="send">
         <br>
+
       <!--  <a href='' class="btn btn-warning btn-sm" @click.prevent='deleteSession'>Delete Chats</a>-->
     </div>
 </template>
@@ -51,6 +52,7 @@ import message from "./message";
         },
         created(){
             this. getOldMessages()
+
         },
         methods: {
             send() {
@@ -74,7 +76,15 @@ import message from "./message";
 
 
             },
+setAudio(){
+    const audio = document.createElement("audio");
+    audio.preload = "auto";
+    audio.src = "http://chatapp.test/SD_ALERT_6.mp3";
+    audio.play();
 
+    document.body.appendChild(audio);
+    return audio
+},
             getTime() {
                 let time = new Date();
                 return time.getHours() + ':' + time.getMinutes();
@@ -105,6 +115,7 @@ import message from "./message";
                     this.chat.txtAlin.push('left')
                     this.chat.txtFloat.push('start')
                     this.chat.time.push(this.getTime())
+                    this.setAudio()
                     axios.post('/saveToSession',{
                         chat : this.chat
                     })
@@ -129,11 +140,12 @@ import message from "./message";
                 })
                 .joining((user) => {
                     this.numberOfUsers += 1;
-                    // console.log(user);
+                  //  this.setAudio()
                     this.$toaster.success(user.name + ' a ingresado al chat');
                 })
                 .leaving((user) => {
                     this.numberOfUsers -= 1;
+                    //this.setAudio()
                     this.$toaster.warning(user.name + ' a salido del chat');
                 });
         }
